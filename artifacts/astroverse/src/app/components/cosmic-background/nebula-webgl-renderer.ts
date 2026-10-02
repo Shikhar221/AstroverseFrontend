@@ -96,9 +96,16 @@ export class NebulaWebGLRenderer {
   private reducedMotion = false;
   private startTime = 0;
   private destroyed = false;
+  private canvas2d: CanvasRenderingContext2D | null = null;
+  private fallbackAnimationFrame: number | null = null;
+  private fallbackWidth = 0;
+  private fallbackHeight = 0;
+  private sourceCanvas?: HTMLCanvasElement;
+  private sourceContext?: CanvasRenderingContext2D;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
+    private readonly fallbackCanvas: HTMLCanvasElement,
     private readonly sourceImage: HTMLImageElement,
     private readonly atmosphere: HTMLElement,
   ) {}
@@ -119,6 +126,7 @@ export class NebulaWebGLRenderer {
     this.sourceImage.removeEventListener('error', this.handleImageError);
     this.canvas.removeEventListener('webglcontextlost', this.handleContextLost);
     window.removeEventListener('resize', this.handleResize);
+    this.stopFallbackAnimation();
     this.motionPreference?.removeEventListener('change', this.handleMotionPreference);
     this.resizeObserver?.disconnect();
     this.stopAnimation();
@@ -215,7 +223,8 @@ export class NebulaWebGLRenderer {
       this.resizeObserver.observe(this.canvas);
       window.addEventListener('resize', this.handleResize, { passive: true });
 
-      this.atmosphere.classList.remove('webgl-unavailable');
+      this.atmosphere.classList.remove('webgl-unavailable', 'canvas-fallback');
+      this.setRendererState('webgl');
       this.resizeCanvas();
       this.startTime = performance.now();
       if (this.reducedMotion) this.draw(0);
@@ -302,8 +311,127 @@ export class NebulaWebGLRenderer {
   private useStaticFallback(error: unknown): void {
     if (this.destroyed) return;
     this.stopAnimation();
-    this.atmosphere.classList.add('webgl-unavailable');
-    console.info('AstroVerse is using SVG displacement for its animated nebula because WebGL is unavailable.', error);
+    this.releaseResources();
+
+    try {
+      const context = this.fallbackCanvas.getContext('2d', { alpha: false, desynchronized: true });
+      if (!context) throw new Error('Canvas 2D is unavailable in this browser.');
+
+      this.canvas2d = context;
+      this.prepareFallbackSource();
+      this.resizeCanvasFallback();
+      this.atmosphere.classList.remove('webgl-unavailable');
+      this.atmosphere.classList.add('canvas-fallback');
+      this.setRendererState('canvas');
+      console.info('AstroVerse is using Canvas 2D atmospheric deformation because WebGL is unavailable.', error);
+      this.startFallbackAnimation();
+    } catch (fallbackError) {
+      this.atmosphere.classList.remove('canvas-fallback');
+      this.atmosphere.classList.add('webgl-unavailable');
+      this.setRendererState('canvas-unavailable');
+      console.warn('AstroVerse could not initialize either WebGL or Canvas 2D nebula rendering.', fallbackError);
+    }
+  }
+
+  private prepareFallbackSource(): void {
+    if (this.sourceCanvas && this.sourceContext) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = this.sourceImage.naturalWidth;
+    canvas.height = this.sourceImage.naturalHeight;
+    const context = canvas.getContext('2d', { alpha: false });
+    if (!context) throw new Error('Could not create the nebula source canvas.');
+    context.drawImage(this.sourceImage, 0, 0);
+    this.sourceCanvas = canvas;
+    this.sourceContext = context;
+  }
+
+  private resizeCanvasFallback(): void {
+    if (!this.canvas2d) return;
+    const bounds = this.fallbackCanvas.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    this.fallbackWidth = Math.max(1, Math.round(bounds.width * dpr));
+    this.fallbackHeight = Math.max(1, Math.round(bounds.height * dpr));
+    this.fallbackCanvas.width = this.fallbackWidth;
+    this.fallbackCanvas.height = this.fallbackHeight;
+  }
+
+  private startFallbackAnimation(): void {
+    this.stopFallbackAnimation();
+    this.fallbackAnimationFrame = requestAnimationFrame(this.renderFallbackFrame);
+  }
+
+  private readonly renderFallbackFrame = (timestamp: number): void => {
+    this.fallbackAnimationFrame = null;
+    if (this.destroyed || !this.canvas2d) return;
+    this.drawCanvasFallback(timestamp * 0.001);
+    this.fallbackAnimationFrame = requestAnimationFrame(this.renderFallbackFrame);
+  };
+
+  private drawCanvasFallback(seconds: number): void {
+    const context = this.canvas2d;
+    const source = this.sourceCanvas;
+    if (!context || !source || !this.fallbackWidth || !this.fallbackHeight) return;
+
+    const viewportAspect = this.fallbackWidth / this.fallbackHeight;
+    const imageAspect = source.width / source.height;
+    let sourceX = 0;
+    let sourceY = 0;
+    let sourceWidth = source.width;
+    let sourceHeight = source.height;
+
+    if (viewportAspect < imageAspect) {
+      sourceWidth = source.height * viewportAspect;
+      sourceX = (source.width - sourceWidth) * 0.5;
+    } else {
+      sourceHeight = source.width / viewportAspect;
+      sourceY = (source.height - sourceHeight) * 0.5;
+    }
+
+    context.clearRect(0, 0, this.fallbackWidth, this.fallbackHeight);
+
+    const bands = 72;
+    const bandHeight = this.fallbackHeight / bands;
+    for (let band = 0; band < bands; band++) {
+      const y = band * bandHeight;
+      const v = (band + 0.5) / bands;
+      const phase = v * 7.2;
+      const waveA = Math.sin(seconds * 0.13 + phase * 0.72) * 9;
+      const waveB = Math.sin(seconds * 0.29 - phase * 0.43 + 1.7) * 4.5;
+      const waveC = Math.sin(seconds * 0.47 + phase * 0.21 + 4.2) * 2;
+      const xDisplacement = waveA + waveB + waveC;
+      const yDisplacement =
+        Math.sin(seconds * 0.11 + phase * 0.55) * 2.8 +
+        Math.sin(seconds * 0.25 - phase * 0.31) * 1.4;
+
+      const sy = sourceY + v * sourceHeight;
+      const sh = Math.max(1, sourceHeight / bands);
+      context.drawImage(
+        source,
+        sourceX,
+        sy,
+        sourceWidth,
+        sh,
+        xDisplacement,
+        y + yDisplacement,
+        this.fallbackWidth,
+        bandHeight + 1,
+      );
+    }
+  }
+
+  private stopFallbackAnimation(): void {
+    if (this.fallbackAnimationFrame !== null) {
+      cancelAnimationFrame(this.fallbackAnimationFrame);
+      this.fallbackAnimationFrame = null;
+    }
+    this.canvas2d = null;
+  }
+
+  private setRendererState(mode: 'webgl' | 'canvas' | 'canvas-unavailable'): void {
+    this.atmosphere.dataset.renderer = mode;
+    this.atmosphere.dataset.rendererDebug =
+      new URLSearchParams(window.location.search).get('debugRenderer') === '1' ? 'true' : 'false';
   }
 
   private releaseResources(): void {
