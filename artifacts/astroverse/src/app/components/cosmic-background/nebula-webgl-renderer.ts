@@ -55,8 +55,16 @@ const FRAGMENT_SHADER = `
     // Continuous multi-scale atmospheric flow. Two independent domains
     // move at different rates/directions so the nebula never visually settles.
     vec2 field = uv * vec2(3.15, 2.65);
-    vec2 slowDrift = vec2(u_time * 0.090, -u_time * 0.066);
-    vec2 rollingDrift = vec2(-u_time * 0.037, u_time * 0.051);
+    // Keep the atmospheric motion continuously visible. The earlier field
+    // could spend several seconds in visually similar noise regions.
+    // These faster independent drifts are paired with a gentle sinusoidal
+    // domain warp so the clouds visibly deform throughout the entire loop.
+    vec2 slowDrift = vec2(u_time * 0.180, -u_time * 0.132);
+    vec2 rollingDrift = vec2(-u_time * 0.074, u_time * 0.102);
+    vec2 breathingDrift = vec2(
+      sin(u_time * 0.42 + uv.y * 6.0),
+      cos(u_time * 0.35 + uv.x * 5.0)
+    ) * 0.012;
 
     float slowX = valueNoise(
       field + slowDrift + vec2(phase * 0.73, phase * 0.37)
@@ -66,7 +74,7 @@ const FRAGMENT_SHADER = `
     );
     vec2 broadWarp = (vec2(slowX, slowY) - 0.5) * 0.078;
 
-    vec2 rollingField = (uv + broadWarp) * vec2(5.1, 4.2);
+    vec2 rollingField = (uv + broadWarp + breathingDrift) * vec2(5.1, 4.2);
     float rollX = valueNoise(
       rollingField + rollingDrift + vec2(phase * 1.17, 2.4)
     );
@@ -83,7 +91,8 @@ const FRAGMENT_SHADER = `
       detailField * 1.21 + vec2(u_time * 0.041, -u_time * 0.052 + phase)
     );
 
-    return broadWarp + rollingWarp + (vec2(detailX, detailY) - 0.5) * 0.016;
+    vec2 detailWarp = (vec2(detailX, detailY) - 0.5) * 0.020;
+    return broadWarp + rollingWarp + breathingDrift + detailWarp;
   }
 
   float luminance(vec3 color) {
@@ -426,13 +435,13 @@ export class NebulaWebGLRenderer {
       const y = band * bandHeight;
       const v = (band + 0.5) / bands;
       const phase = v * 7.2;
-      const waveA = Math.sin(seconds * 0.13 + phase * 0.72) * 9;
-      const waveB = Math.sin(seconds * 0.29 - phase * 0.43 + 1.7) * 4.5;
-      const waveC = Math.sin(seconds * 0.47 + phase * 0.21 + 4.2) * 2;
+      const waveA = Math.sin(seconds * 0.42 + phase * 0.72) * 14;
+      const waveB = Math.sin(seconds * 0.78 - phase * 0.43 + 1.7) * 7;
+      const waveC = Math.sin(seconds * 1.16 + phase * 0.21 + 4.2) * 3.5;
       const xDisplacement = waveA + waveB + waveC;
       const yDisplacement =
-        Math.sin(seconds * 0.11 + phase * 0.55) * 2.8 +
-        Math.sin(seconds * 0.25 - phase * 0.31) * 1.4;
+        Math.sin(seconds * 0.36 + phase * 0.55) * 4.5 +
+        Math.sin(seconds * 0.68 - phase * 0.31) * 2.2;
 
       const sy = sourceY + v * sourceHeight;
       const sh = Math.max(1, sourceHeight / bands);
