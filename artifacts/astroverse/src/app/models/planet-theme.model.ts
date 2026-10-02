@@ -14,7 +14,7 @@ export interface PlanetTheme {
   nebulaThree: string;
   nebulaHue: number;
   nebulaSaturation: number;
-  yantra: 'lotus' | 'orbit' | 'hexagram' | 'flame' | 'solar';
+  yantra: 'lotus' | 'orbit' | 'hexagram' | 'flame' | 'solar' | 'budha';
   signature: string;
 }
 
