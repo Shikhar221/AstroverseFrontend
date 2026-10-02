@@ -24,7 +24,6 @@ import { ThemeService } from '../../core/services/theme.service';
         <div class="aura"></div>
         <div class="zodiac-holder"><app-zodiac-wheel></app-zodiac-wheel></div>
         <div class="yantra-holder"><app-yantra></app-yantra></div>
-        <div class="glyph-core" [attr.aria-label]="theme.activeTheme().name + ' planetary glyph'">{{ theme.activeTheme().glyph }}</div>
       </section>
       <app-side-menu [open]="menuOpen()" (closed)="closeMenu()"></app-side-menu>
     </main>`,
