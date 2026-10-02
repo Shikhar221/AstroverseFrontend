@@ -20,46 +20,46 @@ import { ThemeService } from '../../core/services/theme.service';
         </g>
 
         <g *ngSwitchCase="'budha'">
-          <!-- Compact Budha mandala: contained inside the independent rashi wheel. -->
+          <!-- Budha/Mercury mandala: broad, clean geometry with a strong outer boundary,
+               restrained triangle lattice, and Budha beej syllable at the bindu. -->
           <defs>
             <linearGradient id="budha-line" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#B9F2A0"></stop>
-              <stop offset="52%" stop-color="#8BE6A0"></stop>
-              <stop offset="100%" stop-color="#BFD879"></stop>
+              <stop offset="0%" stop-color="#B8F3A4"></stop>
+              <stop offset="55%" stop-color="#8FE6A7"></stop>
+              <stop offset="100%" stop-color="#B9D978"></stop>
             </linearGradient>
           </defs>
-          <g class="budha-integrated" stroke="url(#budha-line)" stroke-linejoin="round">
-            <!-- Inner yantra boundary; deliberately separated from the rashi ring. -->
-            <circle cx="150" cy="150" r="105" stroke-width="2.0" opacity=".88"></circle>
-            <circle cx="150" cy="150" r="96" stroke-width="1.05" opacity=".58"></circle>
-            <circle cx="150" cy="150" r="87" stroke-width="1.35" opacity=".72"></circle>
-            <circle cx="150" cy="150" r="73" stroke-width=".85" opacity=".48"></circle>
-            <circle cx="150" cy="150" r="59" stroke-width="1.15" opacity=".62"></circle>
+          <g class="budha-integrated" stroke="url(#budha-line)" stroke-linejoin="round" stroke-linecap="round">
+            <!-- Strong outer yantra rings -->
+            <circle cx="150" cy="150" r="108" stroke-width="2.8" opacity=".95"></circle>
+            <circle cx="150" cy="150" r="101" stroke-width="1.35" opacity=".78"></circle>
+            <circle cx="150" cy="150" r="92" stroke-width="1.15" opacity=".64"></circle>
+            <circle cx="150" cy="150" r="81" stroke-width=".9" opacity=".52"></circle>
 
-            <!-- Large but contained interlocking triangles. -->
-            <path d="M150 46 L241 204 L59 204 Z" stroke-width="1.05" opacity=".66"></path>
-            <path d="M150 254 L59 96 L241 96 Z" stroke-width="1.05" opacity=".66"></path>
-            <path d="M150 54 L233 150 L150 246 L67 150 Z" stroke-width=".9" opacity=".56"></path>
-            <path d="M68 150 L150 68 L232 150 L150 232 Z" stroke-width=".8" opacity=".46"></path>
+            <!-- Primary interlocking triangles: fewer, cleaner and much thinner -->
+            <path d="M150 48 L238 201 L62 201 Z" stroke-width=".82" opacity=".70"></path>
+            <path d="M150 252 L62 99 L238 99 Z" stroke-width=".82" opacity=".70"></path>
+            <path d="M150 58 L231 150 L150 242 L69 150 Z" stroke-width=".72" opacity=".58"></path>
 
-            <!-- Secondary rotated triangles, kept inside the yantra boundary. -->
-            <path d="M150 62 L218 194 L82 194 Z" transform="rotate(16 150 150)" stroke-width=".68" opacity=".48"></path>
-            <path d="M150 238 L82 106 L218 106 Z" transform="rotate(16 150 150)" stroke-width=".68" opacity=".48"></path>
-            <path d="M150 62 L218 194 L82 194 Z" transform="rotate(-16 150 150)" stroke-width=".62" opacity=".40"></path>
-            <path d="M150 238 L82 106 L218 106 Z" transform="rotate(-16 150 150)" stroke-width=".62" opacity=".40"></path>
+            <!-- Two restrained rotated triangle layers -->
+            <path d="M150 65 L219 191 L81 191 Z" transform="rotate(15 150 150)" stroke-width=".55" opacity=".46"></path>
+            <path d="M150 235 L81 109 L219 109 Z" transform="rotate(15 150 150)" stroke-width=".55" opacity=".46"></path>
+            <path d="M150 65 L219 191 L81 191 Z" transform="rotate(-15 150 150)" stroke-width=".48" opacity=".38"></path>
+            <path d="M150 235 L81 109 L219 109 Z" transform="rotate(-15 150 150)" stroke-width=".48" opacity=".38"></path>
 
-            <!-- Compact inner lattice. -->
-            <path d="M150 76 L214 150 L150 224 L86 150 Z" stroke-width=".85" opacity=".55"></path>
-            <path d="M150 86 L205 118 L205 182 L150 214 L95 182 L95 118 Z" stroke-width=".72" opacity=".48"></path>
-            <path d="M150 99 L194 125 L194 175 L150 201 L106 175 L106 125 Z" stroke-width=".62" opacity=".42"></path>
+            <!-- Compact inner geometry, intentionally open rather than scratched-looking -->
+            <path d="M150 78 L214 150 L150 222 L86 150 Z" stroke-width=".62" opacity=".50"></path>
+            <path d="M150 91 L202 121 L202 179 L150 209 L98 179 L98 121 Z" stroke-width=".52" opacity=".42"></path>
+            <circle cx="150" cy="150" r="44" stroke-width=".65" opacity=".48"></circle>
+            <circle cx="150" cy="150" r="31" stroke-width=".58" opacity=".40"></circle>
 
-            <!-- Central geometric bindu, no planetary glyph. -->
-            <circle cx="150" cy="150" r="37" stroke-width="1.0" opacity=".62"></circle>
-            <path d="M150 111 L184 131 L184 169 L150 189 L116 169 L116 131 Z" stroke-width=".9" opacity=".58"></path>
-            <path d="M150 121 L175 150 L150 179 L125 150 Z" stroke-width=".8" opacity=".52"></path>
-            <path d="M150 132 L168 150 L150 168 L132 150 Z" stroke-width=".72" opacity=".58"></path>
-            <circle cx="150" cy="150" r="5" stroke-width=".9" opacity=".78"></circle>
-            <circle cx="150" cy="150" r="1.7" fill="#D8F7B4" stroke="none" opacity=".95"></circle>
+            <!-- Budha beej: बं -->
+            <circle cx="150" cy="150" r="20" fill="rgba(120,220,140,.08)" stroke-width=".7" opacity=".60"></circle>
+            <text x="150" y="158" text-anchor="middle"
+              fill="#C7F6B0" stroke="none"
+              font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif"
+              font-size="25" font-weight="500"
+              opacity=".98">बं</text>
           </g>
         </g>
 
