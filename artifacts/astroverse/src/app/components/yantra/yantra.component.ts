@@ -53,13 +53,7 @@ import { ThemeService } from '../../core/services/theme.service';
             <circle cx="150" cy="150" r="44" stroke-width=".65" opacity=".48"></circle>
             <circle cx="150" cy="150" r="31" stroke-width=".58" opacity=".40"></circle>
 
-            <!-- Budha beej: बं -->
-            <circle cx="150" cy="150" r="20" fill="rgba(120,220,140,.08)" stroke-width=".7" opacity=".60"></circle>
-            <text x="150" y="158" text-anchor="middle"
-              fill="#C7F6B0" stroke="none"
-              font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif"
-              font-size="25" font-weight="500"
-              opacity=".98" class="budha-beej">बं</text>
+            <!-- Budha beej is rendered as a fixed overlay so it remains upright while the yantra rotates. -->
           </g>
         </g>
 
