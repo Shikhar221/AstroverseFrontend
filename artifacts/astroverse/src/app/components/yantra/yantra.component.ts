@@ -23,10 +23,10 @@ import { ThemeService } from '../../core/services/theme.service';
           <!-- Budha/Mercury sacred geometry: circular only.
                The outer square/Bhupur and planetary glyph are intentionally excluded. -->
           <g class="budha-outer-rings">
-            <circle cx="150" cy="150" r="116" stroke-width="3.4" opacity=".96"></circle>
-            <circle cx="150" cy="150" r="106" stroke-width="1.65" opacity=".70"></circle>
+            <circle cx="150" cy="150" r="116" stroke-width="2.2" opacity=".92"></circle>
+            <circle cx="150" cy="150" r="106" stroke-width="1.35" opacity=".62"></circle>
             <circle cx="150" cy="150" r="95" stroke-width="1.05" opacity=".42"></circle>
-            <circle cx="150" cy="150" r="84" stroke-width="2.25" opacity=".82"></circle>
+            <circle cx="150" cy="150" r="84" stroke-width="1.65" opacity=".78"></circle>
             <circle cx="150" cy="150" r="72" stroke-width="1.0" opacity=".44"></circle>
           </g>
 
@@ -54,7 +54,7 @@ import { ThemeService } from '../../core/services/theme.service';
           </g>
 
           <!-- Strong inner boundary, matching the reference's visual hierarchy. -->
-          <circle cx="150" cy="150" r="57" stroke-width="2.55" opacity=".90"></circle>
+          <circle cx="150" cy="150" r="57" stroke-width="1.85" opacity=".84"></circle>
           <circle cx="150" cy="150" r="44" stroke-width="1.15" opacity=".58"></circle>
 
           <!-- Compact central yantra lattice. No Mercury glyph in the center. -->
