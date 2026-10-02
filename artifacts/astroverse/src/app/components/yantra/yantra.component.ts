@@ -30,30 +30,23 @@ import { ThemeService } from '../../core/services/theme.service';
             </linearGradient>
           </defs>
           <g class="budha-integrated" stroke="url(#budha-line)" stroke-linejoin="round" stroke-linecap="round">
-            <!-- Strong outer yantra rings -->
-            <circle cx="150" cy="150" r="108" stroke-width="2.8" opacity=".95"></circle>
-            <circle cx="150" cy="150" r="101" stroke-width="1.35" opacity=".78"></circle>
-            <circle cx="150" cy="150" r="92" stroke-width="1.15" opacity=".64"></circle>
-            <circle cx="150" cy="150" r="81" stroke-width=".9" opacity=".52"></circle>
+            <!-- Simplified Budha geometry: fewer, deliberate forms with generous breathing room. -->
+            <circle cx="150" cy="150" r="126" stroke-width="1.5" opacity=".72"></circle>
+            <circle cx="150" cy="150" r="112" stroke-width=".9" opacity=".48"></circle>
+            <circle cx="150" cy="150" r="92" stroke-width=".7" opacity=".34"></circle>
 
-            <!-- Balanced geometry: fewer triangles, more breathing room -->
-            <path d="M150 55 L234 201 L66 201 Z" stroke-width=".78" opacity=".68"></path>
-            <path d="M150 245 L66 99 L234 99 Z" stroke-width=".78" opacity=".68"></path>
-            <path d="M150 72 L228 150 L150 228 L72 150 Z" stroke-width=".62" opacity=".52"></path>
+            <!-- Two primary interlocking triangles: the visual anchor of the yantra. -->
+            <path d="M150 35 L249 207 L51 207 Z" stroke-width=".72" opacity=".62"></path>
+            <path d="M150 265 L51 93 L249 93 Z" stroke-width=".72" opacity=".62"></path>
 
-            <!-- One subtle rotated layer to preserve the yantra character without visual clutter -->
-            <path d="M150 82 L210 186 L90 186 Z" transform="rotate(18 150 150)" stroke-width=".46" opacity=".36"></path>
-            <path d="M150 218 L90 114 L210 114 Z" transform="rotate(18 150 150)" stroke-width=".46" opacity=".36"></path>
+            <!-- One restrained diamond layer, rather than a dense web of rotated triangles. -->
+            <path d="M150 70 L230 150 L150 230 L70 150 Z" stroke-width=".62" opacity=".40"></path>
 
-            <!-- Open inner diamond and bindu rings -->
-            <path d="M150 91 L209 150 L150 209 L91 150 Z" stroke-width=".54" opacity=".40"></path>
-            <circle cx="150" cy="150" r="48" stroke-width=".62" opacity=".44"></circle>
-            <circle cx="150" cy="150" r="32" stroke-width=".54" opacity=".34"></circle>
-
-            <!-- Budha beej is rendered as a fixed overlay so it remains upright while the yantra rotates. -->
+            <!-- Quiet inner circles around the bindu. -->
+            <circle cx="150" cy="150" r="61" stroke-width=".58" opacity=".30"></circle>
+            <circle cx="150" cy="150" r="39" stroke-width=".52" opacity=".24"></circle>
           </g>
         </g>
-
         <g *ngSwitchCase="'orbit'">
           <circle cx="150" cy="150" r="105" opacity=".55"></circle><circle cx="150" cy="150" r="79" opacity=".48"></circle><circle cx="150" cy="150" r="48" opacity=".74"></circle>
           <ellipse cx="150" cy="150" rx="31" ry="112" transform="rotate(30 150 150)" opacity=".8"></ellipse>
