@@ -20,51 +20,58 @@ import { ThemeService } from '../../core/services/theme.service';
         </g>
 
         <g *ngSwitchCase="'budha'">
-          <!-- Budha/Mercury sacred geometry: circular only.
-               The outer square/Bhupur and planetary glyph are intentionally excluded. -->
-          <g class="budha-outer-rings">
-            <circle cx="150" cy="150" r="116" stroke-width="2.2" opacity=".92"></circle>
-            <circle cx="150" cy="150" r="106" stroke-width="1.35" opacity=".62"></circle>
-            <circle cx="150" cy="150" r="95" stroke-width="1.05" opacity=".42"></circle>
-            <circle cx="150" cy="150" r="84" stroke-width="1.65" opacity=".78"></circle>
-            <circle cx="150" cy="150" r="72" stroke-width="1.0" opacity=".44"></circle>
-          </g>
+          <!-- Integrated Budha mandala: no outer square and no planetary glyph.
+               Geometry expands toward the rashi wheel so the two systems read as one instrument. -->
+          <defs>
+            <linearGradient id="budha-line" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C4F4A7"></stop>
+              <stop offset="48%" stop-color="#8BE6A0"></stop>
+              <stop offset="100%" stop-color="#D8C66A"></stop>
+            </linearGradient>
+          </defs>
 
-          <!-- Controlled radial construction, kept subordinate to the main rings. -->
-          <g opacity=".30">
-            <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
-              <path d="M150 38V68" stroke-width=".75"></path>
-              <circle cx="150" cy="38" r="1.1" fill="currentColor" stroke="none"></circle>
+          <g class="budha-integrated" stroke="url(#budha-line)" stroke-linejoin="round">
+            <!-- Large circular structure -->
+            <circle cx="150" cy="150" r="136" stroke-width="1.8" opacity=".88"></circle>
+            <circle cx="150" cy="150" r="125" stroke-width="1.0" opacity=".54"></circle>
+            <circle cx="150" cy="150" r="112" stroke-width="1.35" opacity=".72"></circle>
+            <circle cx="150" cy="150" r="96" stroke-width=".85" opacity=".44"></circle>
+            <circle cx="150" cy="150" r="79" stroke-width="1.25" opacity=".62"></circle>
+            <circle cx="150" cy="150" r="61" stroke-width=".8" opacity=".42"></circle>
+
+            <!-- Large interlocking triangles reaching toward the rashi ring -->
+            <path d="M150 18 L264 216 L36 216 Z" stroke-width="1.15" opacity=".70"></path>
+            <path d="M150 282 L36 84 L264 84 Z" stroke-width="1.15" opacity=".70"></path>
+
+            <path d="M150 28 L257 150 L150 272 L43 150 Z" stroke-width="1.0" opacity=".64"></path>
+            <path d="M44 150 L150 43 L256 150 L150 257 Z" stroke-width=".9" opacity=".52"></path>
+
+            <!-- Rotated secondary triangle pairs -->
+            <path d="M150 39 L238 201 L62 201 Z" transform="rotate(15 150 150)" stroke-width=".82" opacity=".52"></path>
+            <path d="M150 261 L62 99 L238 99 Z" transform="rotate(15 150 150)" stroke-width=".82" opacity=".52"></path>
+            <path d="M150 39 L238 201 L62 201 Z" transform="rotate(-15 150 150)" stroke-width=".72" opacity=".44"></path>
+            <path d="M150 261 L62 99 L238 99 Z" transform="rotate(-15 150 150)" stroke-width=".72" opacity=".44"></path>
+
+            <!-- Inner sacred lattice -->
+            <path d="M150 57 L231 150 L150 243 L69 150 Z" stroke-width="1.0" opacity=".58"></path>
+            <path d="M150 67 L222 108 L222 192 L150 233 L78 192 L78 108 Z" stroke-width=".85" opacity=".54"></path>
+            <path d="M150 76 L214 113 L214 187 L150 224 L86 187 L86 113 Z" stroke-width=".75" opacity=".42"></path>
+
+            <g opacity=".58">
+              <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
+                <path d="M150 56 L184 150 L150 244 L116 150 Z" stroke-width=".62"></path>
+              </g>
             </g>
-          </g>
 
-          <!-- Main sacred-geometry lattice: fewer, deliberate interlocking triangles. -->
-          <g class="budha-main-geometry">
-            <path d="M150 48L236 198L64 198Z" stroke-width="1.45" opacity=".82"></path>
-            <path d="M150 252L64 102L236 102Z" stroke-width="1.45" opacity=".78"></path>
-
-            <path d="M150 65L221 188L79 188Z" stroke-width="1.05" opacity=".62"></path>
-            <path d="M150 235L79 112L221 112Z" stroke-width="1.05" opacity=".58"></path>
-
-            <path d="M150 74L226 150L150 226L74 150Z" stroke-width="1.12" opacity=".68"></path>
-            <path d="M150 91L209 150L150 209L91 150Z" stroke-width=".95" opacity=".56"></path>
-
-            <path d="M108 108L192 108L192 192L108 192Z" transform="rotate(15 150 150)" stroke-width=".9" opacity=".46"></path>
-            <path d="M116 116L184 116L184 184L116 184Z" transform="rotate(-15 150 150)" stroke-width=".82" opacity=".38"></path>
-          </g>
-
-          <!-- Strong inner boundary, matching the reference's visual hierarchy. -->
-          <circle cx="150" cy="150" r="57" stroke-width="1.85" opacity=".84"></circle>
-          <circle cx="150" cy="150" r="44" stroke-width="1.15" opacity=".58"></circle>
-
-          <!-- Compact central yantra lattice. No Mercury glyph in the center. -->
-          <g class="budha-center-geometry">
-            <path d="M150 111L184 130L184 170L150 189L116 170L116 130Z" stroke-width="1.25" opacity=".78"></path>
-            <path d="M150 121L175 135L175 165L150 179L125 165L125 135Z" stroke-width="1.0" opacity=".64"></path>
-            <path d="M150 126L171 150L150 174L129 150Z" stroke-width="1.15" opacity=".82"></path>
-            <path d="M150 130L168 150L150 170L132 150Z" stroke-width=".78" opacity=".48"></path>
-            <circle cx="150" cy="150" r="8" stroke-width="1.25" opacity=".86"></circle>
-            <circle cx="150" cy="150" r="2.3" fill="currentColor" stroke="none" opacity=".9"></circle>
+            <!-- Dense central geometry, ending in a bindu rather than a planet symbol -->
+            <circle cx="150" cy="150" r="45" stroke-width="1.15" opacity=".66"></circle>
+            <circle cx="150" cy="150" r="33" stroke-width=".9" opacity=".52"></circle>
+            <path d="M150 103 L191 127 L191 173 L150 197 L109 173 L109 127 Z" stroke-width="1.0" opacity=".66"></path>
+            <path d="M150 112 L182 131 L182 169 L150 188 L118 169 L118 131 Z" stroke-width=".78" opacity=".54"></path>
+            <path d="M150 119 L177 150 L150 181 L123 150 Z" stroke-width="1.0" opacity=".68"></path>
+            <path d="M150 128 L169 150 L150 172 L131 150 Z" stroke-width=".7" opacity=".52"></path>
+            <circle cx="150" cy="150" r="7" stroke-width="1.0" opacity=".82"></circle>
+            <circle cx="150" cy="150" r="1.8" fill="#D8F7B4" stroke="none" opacity=".95"></circle>
           </g>
         </g>
 
