@@ -20,42 +20,62 @@ import { ThemeService } from '../../core/services/theme.service';
         </g>
 
         <g *ngSwitchCase="'budha'">
-          <!-- Budha/Mercury visual reconstruction: circular geometry only.
-               The photographed outer square/Bhupur and surrounding inscriptions
-               are intentionally excluded from AstroVerse. -->
-          <circle cx="150" cy="150" r="116" opacity=".42"></circle>
-          <circle cx="150" cy="150" r="103" opacity=".72"></circle>
-          <circle cx="150" cy="150" r="87" opacity=".38"></circle>
-          <circle cx="150" cy="150" r="69" opacity=".58"></circle>
-          <circle cx="150" cy="150" r="45" opacity=".34"></circle>
+          <!-- Mercury/Budha yantra: circular sacred-geometry reconstruction.
+               No outer Bhupur/square enclosure or surrounding inscriptions. -->
+          <circle cx="150" cy="150" r="116" opacity=".38"></circle>
+          <circle cx="150" cy="150" r="106" opacity=".62"></circle>
+          <circle cx="150" cy="150" r="96" opacity=".28"></circle>
+          <circle cx="150" cy="150" r="84" opacity=".56"></circle>
+          <circle cx="150" cy="150" r="72" opacity=".28"></circle>
+          <circle cx="150" cy="150" r="60" opacity=".52"></circle>
+          <circle cx="150" cy="150" r="48" opacity=".30"></circle>
+          <circle cx="150" cy="150" r="36" opacity=".55"></circle>
+          <circle cx="150" cy="150" r="20" opacity=".34"></circle>
 
-          <!-- Four cardinal radial axes and four diagonals create the
-               subtle circular construction visible behind the triangles. -->
-          <path d="M150 34V266 M34 150H266" opacity=".22"></path>
-          <path d="M68 68L232 232 M232 68L68 232" opacity=".2"></path>
+          <!-- Fine 12-fold radial construction. -->
+          <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
+            <path d="M150 34V266" opacity=".14"></path>
+            <path d="M150 43V72" opacity=".34"></path>
+            <circle cx="150" cy="43" r="1.15" fill="currentColor" stroke="none" opacity=".65"></circle>
+          </g>
 
-          <!-- Main opposing triangles. -->
-          <path d="M150 42L244 205L56 205Z" opacity=".76"></path>
-          <path d="M150 258L56 95L244 95Z" opacity=".72"></path>
+          <!-- Four nested opposing triangle systems create the dense lattice
+               seen in the reference, rather than the previous atom/orbit motif. -->
+          <path d="M150 35L250 208L50 208Z" opacity=".62"></path>
+          <path d="M150 265L50 92L250 92Z" opacity=".58"></path>
 
-          <!-- Secondary opposing triangles. -->
-          <path d="M150 67L221 190L79 190Z" opacity=".44"></path>
-          <path d="M150 233L79 110L221 110Z" opacity=".42"></path>
+          <path d="M150 51L235 198L65 198Z" opacity=".42"></path>
+          <path d="M150 249L65 102L235 102Z" opacity=".40"></path>
 
-          <!-- Rotated square/diamond layer inside the triangles. -->
-          <path d="M150 57L243 150L150 243L57 150Z" opacity=".58"></path>
-          <path d="M150 78L222 150L150 222L78 150Z" opacity=".32"></path>
+          <path d="M150 68L218 186L82 186Z" opacity=".58"></path>
+          <path d="M150 232L82 114L218 114Z" opacity=".54"></path>
 
-          <!-- Inner six-point lattice and circular bindu region. -->
-          <path d="M150 91L201 179L150 209L99 179Z" opacity=".62"></path>
-          <path d="M150 209L201 121L150 91L99 121Z" opacity=".52"></path>
-          <circle cx="150" cy="150" r="31" opacity=".68"></circle>
-          <circle cx="150" cy="150" r="12" opacity=".28"></circle>
+          <path d="M150 82L201 170L99 170Z" opacity=".36"></path>
+          <path d="M150 218L99 130L201 130Z" opacity=".34"></path>
 
-          <!-- Fine radial construction points. -->
-          <g *ngFor="let p of petals(8)" [attr.transform]="'rotate(' + (p * 45) + ' 150 150)'">
-            <path d="M150 31L150 43" opacity=".52"></path>
-            <circle cx="150" cy="31" r="1.35" fill="currentColor" stroke="none" opacity=".72"></circle>
+          <!-- Rotated diamond/square families, entirely inside the circle. -->
+          <path d="M150 43L257 150L150 257L43 150Z" opacity=".44"></path>
+          <path d="M150 61L239 150L150 239L61 150Z" opacity=".31"></path>
+          <path d="M150 78L222 150L150 222L78 150Z" opacity=".46"></path>
+          <path d="M150 94L206 150L150 206L94 150Z" opacity=".30"></path>
+
+          <!-- Offset rotated square creates the characteristic layered
+               crossing lines without introducing the forbidden outer square. -->
+          <path d="M104 104H196V196H104Z" transform="rotate(15 150 150)" opacity=".34"></path>
+          <path d="M114 114H186V186H114Z" transform="rotate(-15 150 150)" opacity=".28"></path>
+
+          <!-- Central interlocking hexagonal/triangular lattice. -->
+          <path d="M150 92L200 121L200 179L150 208L100 179L100 121Z" opacity=".54"></path>
+          <path d="M150 103L190 127L190 173L150 197L110 173L110 127Z" opacity=".36"></path>
+          <path d="M150 112L183 150L150 188L117 150Z" opacity=".52"></path>
+          <circle cx="150" cy="150" r="27" opacity=".62"></circle>
+          <circle cx="150" cy="150" r="15" opacity=".30"></circle>
+          <circle cx="150" cy="150" r="5" opacity=".72"></circle>
+
+          <!-- Small intersection markers. -->
+          <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
+            <circle cx="150" cy="72" r="1.4" fill="currentColor" stroke="none" opacity=".58"></circle>
+            <circle cx="150" cy="96" r="1" fill="currentColor" stroke="none" opacity=".42"></circle>
           </g>
         </g>
 
