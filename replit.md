@@ -1,45 +1,51 @@
-# [Project name]
+# AstroVerse
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A mobile-first cosmic astrology frontend prototype with a planet-reactive visual theme, animated sacred geometry, and a local planet selector. It does not perform astrology calculations or use live data.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/astroverse run dev` — run the managed AstroVerse preview
+- `pnpm --filter @workspace/astroverse run typecheck` — compile the Angular app
+- `pnpm run typecheck` — check the workspace
+- AstroVerse uses local mock state; it does not require the shared API server or database.
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- pnpm workspace, TypeScript
+- Angular with Ionic Angular
+- Angular signals for local theme and visual state
+- Inline SVG geometry and CSS gradients/animations
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/astroverse/src/app/models/planet-theme.model.ts` — theme and local visual-state types
+- `artifacts/astroverse/src/app/core/services/theme.service.ts` — planet definitions, selection, and CSS theme variables
+- `artifacts/astroverse/src/app/components/` — nebula background, zodiac wheel, yantras, status text, and planet selector
+- `artifacts/astroverse/src/app/pages/home/` — main mobile screen
+- `artifacts/astroverse/src/index.css` — cosmic atmosphere, layout, safe areas, and motion
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Planet colors, glows, and nebula tones are centralized in the theme model/service; components consume CSS variables rather than defining their own planet palettes.
+- Each planet selects its own vector yantra. These are visual prototypes, not mathematically authentic charts.
+- Motion is CSS-based, slow, and reduced for users who prefer reduced motion.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Starts on Jupiter with an amber cosmic atmosphere.
+- A translucent side selector switches between Jupiter, Mercury, Saturn, Mars, and Sun without reloading.
+- Status copy, planetary glyph, yantra, background, and accent glow follow the active planet.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Keep this prototype frontend-only: no backend, API, database, authentication, payments, AI, or real astrology logic.
+- Preserve the immersive cosmic reference direction; do not turn it into a standard Ionic dashboard or add cards.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Use the managed `artifacts/astroverse: web` workflow so the injected `PORT` and `BASE_PATH` are honored.
+- The generic API Server artifact exists in the workspace but is not part of AstroVerse.
 
 ## Pointers
 
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- See the `pnpm-workspace` skill for workspace structure and package conventions.

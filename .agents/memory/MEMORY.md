@@ -1,0 +1,1 @@
+- [Angular toolchain constraints](angular-toolchain.md) — check CLI Node requirements and blocked Piscina transitives before upgrading.

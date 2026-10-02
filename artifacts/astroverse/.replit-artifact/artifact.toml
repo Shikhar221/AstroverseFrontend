@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AstroVerse"
+description = "A mobile-first cosmic astrology interface prototype with planet-reactive themes, animated sacred geometry, and a local interactive planet selector."
+version = "1.0.0"
+id = "artifacts/astroverse"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25635
+
+[services.development]
+run = "pnpm --filter @workspace/astroverse run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/astroverse", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/astroverse/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25635"
+BASE_PATH = "/"
