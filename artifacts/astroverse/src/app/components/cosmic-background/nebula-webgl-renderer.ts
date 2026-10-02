@@ -52,10 +52,24 @@ const FRAGMENT_SHADER = `
   }
 
   vec2 smokeFlow(vec2 uv, float phase) {
-    vec2 field = uv * vec2(5.4, 4.2);
-    float horizontal = valueNoise(field + vec2(u_time * 0.024 + phase, -u_time * 0.016 + phase * 0.37));
-    float vertical = valueNoise(field * 1.31 + vec2(8.7 - u_time * 0.014 + phase, 3.1 + u_time * 0.019 - phase));
-    return (vec2(horizontal, vertical) - 0.5) * 0.022;
+    // Large, slow domain warp: this deforms the nebula itself instead of
+    // translating the whole texture. The movement is intentionally visible
+    // on a phone while remaining gentle enough for the sacred geometry.
+    vec2 field = uv * vec2(3.8, 3.1);
+    vec2 drift = vec2(u_time * 0.045, -u_time * 0.031);
+
+    float warpX = valueNoise(field + drift + vec2(phase, phase * 0.37));
+    float warpY = valueNoise(
+      field * 1.17 - drift * 0.82 + vec2(8.7 + phase, 3.1 - phase)
+    );
+
+    vec2 warpedUv = uv + (vec2(warpX, warpY) - 0.5) * 0.060;
+
+    vec2 detailField = warpedUv * vec2(8.2, 6.6);
+    float detailX = valueNoise(detailField + vec2(-u_time * 0.022 + phase, u_time * 0.017));
+    float detailY = valueNoise(detailField * 1.23 + vec2(u_time * 0.018, -u_time * 0.025 + phase));
+
+    return (warpedUv - uv) + (vec2(detailX, detailY) - 0.5) * 0.014;
   }
 
   float luminance(vec3 color) {
