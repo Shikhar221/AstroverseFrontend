@@ -55,15 +55,12 @@ app-zodiac-wheel, app-yantra, app-planetary-status, app-cosmic-background, app-s
 }
 .cosmos::after { inset: -30%; opacity: .12; filter: blur(82px); animation-duration: 41s; animation-direction: alternate-reverse; }
 .atmosphere { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.nebula-layer { position: absolute; inset: -12%; overflow: hidden; transform-origin: 50% 50%; will-change: transform, opacity; }
-/* Three offset crops move independently for organic parallax without a costly full-screen turbulence filter. */
-.nebula-image { position: absolute; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(1.38) brightness(.96); transition: filter 1.25s ease; }
-.center-crop { object-position: 50% 50%; }
-.right-crop { object-position: 66% 52%; }
-.left-crop { object-position: 34% 48%; }
-.nebula-layer-one { opacity: .67; animation: nebula-flow-one 56s ease-in-out infinite; }
-.nebula-layer-two { opacity: .17; animation: nebula-flow-two 38s ease-in-out infinite; }
-.nebula-layer-three { opacity: .08; animation: nebula-flow-three 43s ease-in-out infinite; }
+.nebula-filter-definitions { position: absolute; width: 0; height: 0; overflow: hidden; }
+.nebula-canvas, .nebula-source { position: absolute; inset: 0; width: 100%; height: 100%; }
+.nebula-canvas { display: block; opacity: .67; filter: grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(1.38) brightness(.96); transition: filter 1.25s ease; }
+.nebula-source { opacity: 0; object-fit: cover; object-position: 50% 50%; filter: url(#nebula-smoke-flow) grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(1.38) brightness(.96); }
+.atmosphere.webgl-unavailable .nebula-canvas { display: none; }
+.atmosphere.webgl-unavailable .nebula-source { opacity: .67; }
 .starfield { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .27; transition: opacity 1s; }
 .starfield::before, .starfield::after {
   content: ''; position: absolute; inset: 0;
@@ -134,9 +131,6 @@ app-zodiac-wheel, app-yantra, app-planetary-status, app-cosmic-background, app-s
 @keyframes yantra-breathe { 0%,100% { scale: 1; } 50% { scale: 1.035; } }
 @keyframes zodiac-turn { to { transform: rotate(360deg); } }
 @keyframes cloud-drift { from { transform: translate3d(-1.2%, 1%, 0) scale(1); } to { transform: translate3d(1.5%, -1.1%, 0) scale(1.07); } }
-@keyframes nebula-flow-one { 0%,100% { transform: scale(1.02) rotate(-.8deg); opacity: .58; } 50% { transform: scale(1.1) rotate(.9deg); opacity: .76; } }
-@keyframes nebula-flow-two { 0%,100% { transform: scale(1.11) rotate(1.7deg); opacity: .11; } 50% { transform: scale(1.03) rotate(-1.2deg); opacity: .22; } }
-@keyframes nebula-flow-three { 0%,100% { transform: scale(1.04) rotate(-1.4deg); opacity: .05; } 50% { transform: scale(1.13) rotate(1.8deg); opacity: .12; } }
 @keyframes stars-drift { from { transform: translateY(0); } to { transform: translateY(-40px); } }
 @keyframes float-dust { from { transform: translate3d(0,0,0); opacity: .2; } to { transform: translate3d(12px,-17px,0); opacity: .68; } }
 @keyframes reveal { from { opacity: .35; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
@@ -160,4 +154,5 @@ app-zodiac-wheel, app-yantra, app-planetary-status, app-cosmic-background, app-s
 }
 @media (prefers-reduced-motion: reduce) {
  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  .nebula-source { filter: url(#nebula-smoke-static) grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(1.38) brightness(.96); }
 }
