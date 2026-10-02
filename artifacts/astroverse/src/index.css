@@ -57,7 +57,7 @@ app-zodiac-wheel, app-yantra, app-planetary-status, app-cosmic-background, app-s
 .atmosphere { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .nebula-filter-definitions { position: absolute; width: 0; height: 0; overflow: hidden; }
 .nebula-canvas, .nebula-fallback-canvas, .nebula-source { position: absolute; inset: 0; width: 100%; height: 100%; }
-.nebula-canvas, .nebula-fallback-canvas { display: block; opacity: .58; filter: grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(var(--nebula-contrast, 1.18)) brightness(var(--nebula-brightness, .94)); transition: filter 1.25s ease; }
+.nebula-canvas, .nebula-fallback-canvas { display: block; opacity: .67; filter: grayscale(1) sepia(1) saturate(var(--nebula-saturation)) hue-rotate(var(--nebula-hue)) contrast(var(--nebula-contrast, 1.18)) brightness(var(--nebula-brightness, .94)); transition: filter 1.25s ease; }
 .nebula-fallback-canvas { display: none; }
 .nebula-source { opacity: 0; object-fit: cover; object-position: 50% 50%; }
 .atmosphere.webgl-unavailable .nebula-canvas { display: none; }
