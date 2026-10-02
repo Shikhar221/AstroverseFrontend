@@ -28,6 +28,25 @@ import { ThemeService } from '../../core/services/theme.service';
           <div class="budha-beej-fixed" aria-hidden="true">बं</div>
         }
       </section>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <button class="nav-item active" type="button" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">⌂</span><span>Dashboard</span>
+        </button>
+        <button class="nav-item" type="button">
+          <span class="nav-icon" aria-hidden="true">◫</span><span>Panchang</span>
+        </button>
+        <button class="nav-item" type="button">
+          <span class="nav-icon nav-chat" aria-hidden="true">◌</span><span>Ask AI</span>
+        </button>
+        <button class="nav-item" type="button">
+          <span class="nav-icon" aria-hidden="true">◇</span><span>Remedies</span>
+        </button>
+        <button class="nav-item" type="button">
+          <span class="nav-icon" aria-hidden="true">⋯</span><span>More</span>
+        </button>
+      </nav>
+
       <app-side-menu [open]="menuOpen()" (closed)="closeMenu()"></app-side-menu>
     </main>`,
 })
