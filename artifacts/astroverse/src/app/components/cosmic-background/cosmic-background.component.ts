@@ -21,6 +21,7 @@ import { NebulaWebGLRenderer } from './nebula-webgl-renderer';
         </defs>
       </svg>
       <canvas #nebulaCanvas class="nebula-canvas"></canvas>
+      <canvas #fallbackCanvas class="nebula-fallback-canvas"></canvas>
       <img #nebulaSource class="nebula-source" src="assets/nebula-master.png" alt="" draggable="false">
       <div class="starfield"></div>
       <i class="dust dust-a"></i>
@@ -32,6 +33,7 @@ import { NebulaWebGLRenderer } from './nebula-webgl-renderer';
 export class CosmicBackgroundComponent implements AfterViewInit, OnDestroy {
   @ViewChild('atmosphere', { static: true }) private atmosphere!: ElementRef<HTMLElement>;
   @ViewChild('nebulaCanvas', { static: true }) private canvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('fallbackCanvas', { static: true }) private fallbackCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('nebulaSource', { static: true }) private sourceImage!: ElementRef<HTMLImageElement>;
 
   private renderer?: NebulaWebGLRenderer;
@@ -42,6 +44,7 @@ export class CosmicBackgroundComponent implements AfterViewInit, OnDestroy {
     this.zone.runOutsideAngular(() => {
       this.renderer = new NebulaWebGLRenderer(
         this.canvas.nativeElement,
+        this.fallbackCanvas.nativeElement,
         this.sourceImage.nativeElement,
         this.atmosphere.nativeElement,
       );
