@@ -108,7 +108,7 @@ const FRAGMENT_SHADER = `
     // Lift the darkest source pixels into the planet's dark color family.
     // This prevents the raw black of the monochrome master from becoming
     // black on screen; the nebula should transition dark-green -> green -> light-green.
-    cloudLuminance = 0.035 + pow(clamp(cloudLuminance, 0.0, 1.0), 0.96) * 0.58;
+    cloudLuminance = 0.12 + pow(clamp(cloudLuminance, 0.0, 1.0), 0.92) * 0.88;
 
     gl_FragColor = vec4(vec3(cloudLuminance), 1.0);
   }
