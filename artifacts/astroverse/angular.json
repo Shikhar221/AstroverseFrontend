@@ -35,6 +35,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": [".replit.dev", ".riker.replit.dev"]
+          },
           "configurations": {
             "production": { "buildTarget": "astroverse:build:production" },
             "development": { "buildTarget": "astroverse:build:development" }
