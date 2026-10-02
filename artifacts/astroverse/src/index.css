@@ -121,12 +121,12 @@ app-zodiac-wheel, app-yantra, app-planetary-status, app-cosmic-background, app-s
   top: 50%;
   z-index: 3;
   transform: translate(-50%, -50%);
-  color: #E9FFD2;
+  color: #CFEFAF;
   font-family: 'Noto Sans Devanagari', 'Nirmala UI', sans-serif;
   font-size: clamp(34px, 10vw, 50px);
   font-weight: 500;
   line-height: 1;
-  text-shadow: 0 0 14px var(--planet-soft), 0 0 30px var(--planet-faint), 0 0 44px rgba(233,255,210,.24);
+  text-shadow: 0 0 8px var(--planet-soft), 0 0 16px var(--planet-faint), 0 0 24px rgba(207,239,175,.12);
   pointer-events: none;
 }
 
