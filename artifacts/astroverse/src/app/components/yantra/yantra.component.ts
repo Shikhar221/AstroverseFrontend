@@ -59,7 +59,7 @@ import { ThemeService } from '../../core/services/theme.service';
               fill="#C7F6B0" stroke="none"
               font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif"
               font-size="25" font-weight="500"
-              opacity=".98">बं</text>
+              opacity=".98" class="budha-beej">बं</text>
           </g>
         </g>
 
