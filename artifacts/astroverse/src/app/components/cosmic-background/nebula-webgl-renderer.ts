@@ -429,8 +429,8 @@ export class NebulaWebGLRenderer {
   }
 
   private setRendererState(mode: 'webgl' | 'canvas' | 'canvas-unavailable'): void {
-    this.atmosphere.dataset.renderer = mode;
-    this.atmosphere.dataset.rendererDebug =
+    this.atmosphere.dataset['renderer'] = mode;
+    this.atmosphere.dataset['rendererDebug'] =
       new URLSearchParams(window.location.search).get('debugRenderer') === '1' ? 'true' : 'false';
   }
 
