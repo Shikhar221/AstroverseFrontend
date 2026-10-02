@@ -18,6 +18,47 @@ import { ThemeService } from '../../core/services/theme.service';
           <g *ngFor="let petal of petals(12)" [attr.transform]="'rotate(' + (petal * 30) + ' 150 150)'"><path d="M150 90 C125 111 127 143 150 161 C173 143 175 111 150 90Z" opacity=".63"></path></g>
           <path d="M150 93 201 180 150 208 99 180Z" opacity=".72"></path><path d="M150 208 201 120 150 92 99 120Z" opacity=".6"></path>
         </g>
+
+        <g *ngSwitchCase="'budha'">
+          <!-- Budha/Mercury visual reconstruction: circular geometry only.
+               The photographed outer square/Bhupur and surrounding inscriptions
+               are intentionally excluded from AstroVerse. -->
+          <circle cx="150" cy="150" r="116" opacity=".42"></circle>
+          <circle cx="150" cy="150" r="103" opacity=".72"></circle>
+          <circle cx="150" cy="150" r="87" opacity=".38"></circle>
+          <circle cx="150" cy="150" r="69" opacity=".58"></circle>
+          <circle cx="150" cy="150" r="45" opacity=".34"></circle>
+
+          <!-- Four cardinal radial axes and four diagonals create the
+               subtle circular construction visible behind the triangles. -->
+          <path d="M150 34V266 M34 150H266" opacity=".22"></path>
+          <path d="M68 68L232 232 M232 68L68 232" opacity=".2"></path>
+
+          <!-- Main opposing triangles. -->
+          <path d="M150 42L244 205L56 205Z" opacity=".76"></path>
+          <path d="M150 258L56 95L244 95Z" opacity=".72"></path>
+
+          <!-- Secondary opposing triangles. -->
+          <path d="M150 67L221 190L79 190Z" opacity=".44"></path>
+          <path d="M150 233L79 110L221 110Z" opacity=".42"></path>
+
+          <!-- Rotated square/diamond layer inside the triangles. -->
+          <path d="M150 57L243 150L150 243L57 150Z" opacity=".58"></path>
+          <path d="M150 78L222 150L150 222L78 150Z" opacity=".32"></path>
+
+          <!-- Inner six-point lattice and circular bindu region. -->
+          <path d="M150 91L201 179L150 209L99 179Z" opacity=".62"></path>
+          <path d="M150 209L201 121L150 91L99 121Z" opacity=".52"></path>
+          <circle cx="150" cy="150" r="31" opacity=".68"></circle>
+          <circle cx="150" cy="150" r="12" opacity=".28"></circle>
+
+          <!-- Fine radial construction points. -->
+          <g *ngFor="let p of petals(8)" [attr.transform]="'rotate(' + (p * 45) + ' 150 150)'">
+            <path d="M150 31L150 43" opacity=".52"></path>
+            <circle cx="150" cy="31" r="1.35" fill="currentColor" stroke="none" opacity=".72"></circle>
+          </g>
+        </g>
+
         <g *ngSwitchCase="'orbit'">
           <circle cx="150" cy="150" r="105" opacity=".55"></circle><circle cx="150" cy="150" r="79" opacity=".48"></circle><circle cx="150" cy="150" r="48" opacity=".74"></circle>
           <ellipse cx="150" cy="150" rx="31" ry="112" transform="rotate(30 150 150)" opacity=".8"></ellipse>
