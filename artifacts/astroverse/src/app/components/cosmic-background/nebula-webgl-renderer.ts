@@ -105,6 +105,10 @@ const FRAGMENT_SHADER = `
     float rightCloud = luminance(texture2D(u_nebula, rightSample).rgb);
     float leftCloud = luminance(texture2D(u_nebula, leftSample).rgb);
     float cloudLuminance = mainCloud * 0.76 + rightCloud * 0.17 + leftCloud * 0.07;
+    // Lift the darkest source pixels into the planet's dark color family.
+    // This prevents the raw black of the monochrome master from becoming
+    // black on screen; the nebula should transition dark-green -> green -> light-green.
+    cloudLuminance = 0.12 + pow(clamp(cloudLuminance, 0.0, 1.0), 0.92) * 0.88;
 
     gl_FragColor = vec4(vec3(cloudLuminance), 1.0);
   }
