@@ -52,22 +52,30 @@ const FRAGMENT_SHADER = `
   }
 
   vec2 smokeFlow(vec2 uv, float phase) {
-    // Full-frame domain warp. Every region of the nebula gets its own
-    // displacement so the entire screen continuously deforms instead of
-    // concentrating movement in one side of the image.
+    // Continuous multi-scale atmospheric flow. Two independent domains
+    // move at different rates/directions so the nebula never visually settles.
     vec2 field = uv * vec2(3.15, 2.65);
-    vec2 drift = vec2(u_time * 0.090, -u_time * 0.066);
+    vec2 slowDrift = vec2(u_time * 0.090, -u_time * 0.066);
+    vec2 rollingDrift = vec2(-u_time * 0.037, u_time * 0.051);
 
-    float warpX = valueNoise(
-      field + drift + vec2(phase * 0.73, phase * 0.37)
+    float slowX = valueNoise(
+      field + slowDrift + vec2(phase * 0.73, phase * 0.37)
     );
-    float warpY = valueNoise(
-      field * 1.19 - drift * 0.86 + vec2(8.7 + phase, 3.1 - phase)
+    float slowY = valueNoise(
+      field * 1.19 - slowDrift * 0.86 + vec2(8.7 + phase, 3.1 - phase)
     );
+    vec2 broadWarp = (vec2(slowX, slowY) - 0.5) * 0.078;
 
-    vec2 broadWarp = (vec2(warpX, warpY) - 0.5) * 0.082;
+    vec2 rollingField = (uv + broadWarp) * vec2(5.1, 4.2);
+    float rollX = valueNoise(
+      rollingField + rollingDrift + vec2(phase * 1.17, 2.4)
+    );
+    float rollY = valueNoise(
+      rollingField * 1.27 - rollingDrift * 0.91 + vec2(6.2, phase * 0.83)
+    );
+    vec2 rollingWarp = (vec2(rollX, rollY) - 0.5) * 0.034;
 
-    vec2 detailField = (uv + broadWarp) * vec2(7.2, 5.8);
+    vec2 detailField = (uv + broadWarp + rollingWarp) * vec2(8.0, 6.4);
     float detailX = valueNoise(
       detailField + vec2(-u_time * 0.048 + phase, u_time * 0.037)
     );
@@ -75,7 +83,7 @@ const FRAGMENT_SHADER = `
       detailField * 1.21 + vec2(u_time * 0.041, -u_time * 0.052 + phase)
     );
 
-    return broadWarp + (vec2(detailX, detailY) - 0.5) * 0.020;
+    return broadWarp + rollingWarp + (vec2(detailX, detailY) - 0.5) * 0.016;
   }
 
   float luminance(vec3 color) {
@@ -244,6 +252,7 @@ export class NebulaWebGLRenderer {
       window.addEventListener('resize', this.handleResize, { passive: true });
 
       this.atmosphere.classList.remove('webgl-unavailable', 'canvas-fallback');
+      this.fallbackCanvas.style.opacity = '0';
       this.setRendererState('webgl');
       this.resizeCanvas();
       this.startTime = performance.now();
@@ -342,6 +351,7 @@ export class NebulaWebGLRenderer {
       this.resizeCanvasFallback();
       this.atmosphere.classList.remove('webgl-unavailable');
       this.atmosphere.classList.add('canvas-fallback');
+      this.fallbackCanvas.style.opacity = '1';
       this.setRendererState('canvas');
       console.info('AstroVerse is using Canvas 2D atmospheric deformation because WebGL is unavailable.', error);
       this.startFallbackAnimation();
