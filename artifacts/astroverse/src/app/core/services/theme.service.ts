@@ -45,6 +45,7 @@ export class ThemeService {
     root.style.setProperty('--nebula-saturation', `${theme.nebulaSaturation}`);
     root.style.setProperty('--nebula-contrast', theme.id === 'mercury' ? '1.10' : '1.18');
     root.style.setProperty('--nebula-brightness', theme.id === 'mercury' ? '.91' : '.94');
+    root.style.setProperty('--yantra', theme.id === 'mercury' ? '#9DE3A8' : theme.primary);
     root.style.setProperty('--cosmos-center', 'rgba(21,21,25,.22)');
     root.style.setProperty('--cosmos-edge', 'rgba(7,8,12,.64)');
     root.style.setProperty('--vignette-opacity', '.34');
