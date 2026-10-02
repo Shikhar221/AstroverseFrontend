@@ -52,24 +52,30 @@ const FRAGMENT_SHADER = `
   }
 
   vec2 smokeFlow(vec2 uv, float phase) {
-    // Large, slow domain warp: this deforms the nebula itself instead of
-    // translating the whole texture. The movement is intentionally visible
-    // on a phone while remaining gentle enough for the sacred geometry.
-    vec2 field = uv * vec2(3.8, 3.1);
-    vec2 drift = vec2(u_time * 0.045, -u_time * 0.031);
+    // Full-frame domain warp. Every region of the nebula gets its own
+    // displacement so the entire screen continuously deforms instead of
+    // concentrating movement in one side of the image.
+    vec2 field = uv * vec2(3.15, 2.65);
+    vec2 drift = vec2(u_time * 0.090, -u_time * 0.066);
 
-    float warpX = valueNoise(field + drift + vec2(phase, phase * 0.37));
+    float warpX = valueNoise(
+      field + drift + vec2(phase * 0.73, phase * 0.37)
+    );
     float warpY = valueNoise(
-      field * 1.17 - drift * 0.82 + vec2(8.7 + phase, 3.1 - phase)
+      field * 1.19 - drift * 0.86 + vec2(8.7 + phase, 3.1 - phase)
     );
 
-    vec2 warpedUv = uv + (vec2(warpX, warpY) - 0.5) * 0.060;
+    vec2 broadWarp = (vec2(warpX, warpY) - 0.5) * 0.082;
 
-    vec2 detailField = warpedUv * vec2(8.2, 6.6);
-    float detailX = valueNoise(detailField + vec2(-u_time * 0.022 + phase, u_time * 0.017));
-    float detailY = valueNoise(detailField * 1.23 + vec2(u_time * 0.018, -u_time * 0.025 + phase));
+    vec2 detailField = (uv + broadWarp) * vec2(7.2, 5.8);
+    float detailX = valueNoise(
+      detailField + vec2(-u_time * 0.048 + phase, u_time * 0.037)
+    );
+    float detailY = valueNoise(
+      detailField * 1.21 + vec2(u_time * 0.041, -u_time * 0.052 + phase)
+    );
 
-    return (warpedUv - uv) + (vec2(detailX, detailY) - 0.5) * 0.014;
+    return broadWarp + (vec2(detailX, detailY) - 0.5) * 0.020;
   }
 
   float luminance(vec3 color) {
