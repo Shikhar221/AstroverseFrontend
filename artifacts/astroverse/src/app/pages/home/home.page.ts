@@ -23,7 +23,7 @@ import { ThemeService } from '../../core/services/theme.service';
       <section class="instrument" aria-label="Current planetary yantra and zodiac wheel">
         <div class="aura"></div>
         <div class="zodiac-holder"><app-zodiac-wheel></app-zodiac-wheel></div>
-        <div class="yantra-holder"><app-yantra></app-yantra></div>
+        <div class="yantra-holder" [class.budha-integrated-holder]="theme.activeTheme().yantra === 'budha'"><app-yantra></app-yantra></div>
       </section>
       <app-side-menu [open]="menuOpen()" (closed)="closeMenu()"></app-side-menu>
     </main>`,
