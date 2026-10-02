@@ -20,62 +20,51 @@ import { ThemeService } from '../../core/services/theme.service';
         </g>
 
         <g *ngSwitchCase="'budha'">
-          <!-- Mercury/Budha yantra: circular sacred-geometry reconstruction.
-               No outer Bhupur/square enclosure or surrounding inscriptions. -->
-          <circle cx="150" cy="150" r="116" opacity=".38"></circle>
-          <circle cx="150" cy="150" r="106" opacity=".62"></circle>
-          <circle cx="150" cy="150" r="96" opacity=".28"></circle>
-          <circle cx="150" cy="150" r="84" opacity=".56"></circle>
-          <circle cx="150" cy="150" r="72" opacity=".28"></circle>
-          <circle cx="150" cy="150" r="60" opacity=".52"></circle>
-          <circle cx="150" cy="150" r="48" opacity=".30"></circle>
-          <circle cx="150" cy="150" r="36" opacity=".55"></circle>
-          <circle cx="150" cy="150" r="20" opacity=".34"></circle>
-
-          <!-- Fine 12-fold radial construction. -->
-          <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
-            <path d="M150 34V266" opacity=".14"></path>
-            <path d="M150 43V72" opacity=".34"></path>
-            <circle cx="150" cy="43" r="1.15" fill="currentColor" stroke="none" opacity=".65"></circle>
+          <!-- Budha/Mercury sacred geometry: circular only.
+               The outer square/Bhupur and planetary glyph are intentionally excluded. -->
+          <g class="budha-outer-rings">
+            <circle cx="150" cy="150" r="116" stroke-width="2.2" opacity=".92"></circle>
+            <circle cx="150" cy="150" r="106" stroke-width="1.35" opacity=".62"></circle>
+            <circle cx="150" cy="150" r="95" stroke-width="1.05" opacity=".42"></circle>
+            <circle cx="150" cy="150" r="84" stroke-width="1.65" opacity=".78"></circle>
+            <circle cx="150" cy="150" r="72" stroke-width="1.0" opacity=".44"></circle>
           </g>
 
-          <!-- Four nested opposing triangle systems create the dense lattice
-               seen in the reference, rather than the previous atom/orbit motif. -->
-          <path d="M150 35L250 208L50 208Z" opacity=".62"></path>
-          <path d="M150 265L50 92L250 92Z" opacity=".58"></path>
+          <!-- Controlled radial construction, kept subordinate to the main rings. -->
+          <g opacity=".30">
+            <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
+              <path d="M150 38V68" stroke-width=".75"></path>
+              <circle cx="150" cy="38" r="1.1" fill="currentColor" stroke="none"></circle>
+            </g>
+          </g>
 
-          <path d="M150 51L235 198L65 198Z" opacity=".42"></path>
-          <path d="M150 249L65 102L235 102Z" opacity=".40"></path>
+          <!-- Main sacred-geometry lattice: fewer, deliberate interlocking triangles. -->
+          <g class="budha-main-geometry">
+            <path d="M150 48L236 198L64 198Z" stroke-width="1.45" opacity=".82"></path>
+            <path d="M150 252L64 102L236 102Z" stroke-width="1.45" opacity=".78"></path>
 
-          <path d="M150 68L218 186L82 186Z" opacity=".58"></path>
-          <path d="M150 232L82 114L218 114Z" opacity=".54"></path>
+            <path d="M150 65L221 188L79 188Z" stroke-width="1.05" opacity=".62"></path>
+            <path d="M150 235L79 112L221 112Z" stroke-width="1.05" opacity=".58"></path>
 
-          <path d="M150 82L201 170L99 170Z" opacity=".36"></path>
-          <path d="M150 218L99 130L201 130Z" opacity=".34"></path>
+            <path d="M150 74L226 150L150 226L74 150Z" stroke-width="1.12" opacity=".68"></path>
+            <path d="M150 91L209 150L150 209L91 150Z" stroke-width=".95" opacity=".56"></path>
 
-          <!-- Rotated diamond/square families, entirely inside the circle. -->
-          <path d="M150 43L257 150L150 257L43 150Z" opacity=".44"></path>
-          <path d="M150 61L239 150L150 239L61 150Z" opacity=".31"></path>
-          <path d="M150 78L222 150L150 222L78 150Z" opacity=".46"></path>
-          <path d="M150 94L206 150L150 206L94 150Z" opacity=".30"></path>
+            <path d="M108 108L192 108L192 192L108 192Z" transform="rotate(15 150 150)" stroke-width=".9" opacity=".46"></path>
+            <path d="M116 116L184 116L184 184L116 184Z" transform="rotate(-15 150 150)" stroke-width=".82" opacity=".38"></path>
+          </g>
 
-          <!-- Offset rotated square creates the characteristic layered
-               crossing lines without introducing the forbidden outer square. -->
-          <path d="M104 104H196V196H104Z" transform="rotate(15 150 150)" opacity=".34"></path>
-          <path d="M114 114H186V186H114Z" transform="rotate(-15 150 150)" opacity=".28"></path>
+          <!-- Strong inner boundary, matching the reference's visual hierarchy. -->
+          <circle cx="150" cy="150" r="57" stroke-width="1.85" opacity=".84"></circle>
+          <circle cx="150" cy="150" r="44" stroke-width="1.15" opacity=".58"></circle>
 
-          <!-- Central interlocking hexagonal/triangular lattice. -->
-          <path d="M150 92L200 121L200 179L150 208L100 179L100 121Z" opacity=".54"></path>
-          <path d="M150 103L190 127L190 173L150 197L110 173L110 127Z" opacity=".36"></path>
-          <path d="M150 112L183 150L150 188L117 150Z" opacity=".52"></path>
-          <circle cx="150" cy="150" r="27" opacity=".62"></circle>
-          <circle cx="150" cy="150" r="15" opacity=".30"></circle>
-          <circle cx="150" cy="150" r="5" opacity=".72"></circle>
-
-          <!-- Small intersection markers. -->
-          <g *ngFor="let p of petals(12)" [attr.transform]="'rotate(' + (p * 30) + ' 150 150)'">
-            <circle cx="150" cy="72" r="1.4" fill="currentColor" stroke="none" opacity=".58"></circle>
-            <circle cx="150" cy="96" r="1" fill="currentColor" stroke="none" opacity=".42"></circle>
+          <!-- Compact central yantra lattice. No Mercury glyph in the center. -->
+          <g class="budha-center-geometry">
+            <path d="M150 111L184 130L184 170L150 189L116 170L116 130Z" stroke-width="1.25" opacity=".78"></path>
+            <path d="M150 121L175 135L175 165L150 179L125 165L125 135Z" stroke-width="1.0" opacity=".64"></path>
+            <path d="M150 126L171 150L150 174L129 150Z" stroke-width="1.15" opacity=".82"></path>
+            <path d="M150 130L168 150L150 170L132 150Z" stroke-width=".78" opacity=".48"></path>
+            <circle cx="150" cy="150" r="8" stroke-width="1.25" opacity=".86"></circle>
+            <circle cx="150" cy="150" r="2.3" fill="currentColor" stroke="none" opacity=".9"></circle>
           </g>
         </g>
 
