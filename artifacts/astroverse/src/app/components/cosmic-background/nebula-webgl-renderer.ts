@@ -56,7 +56,7 @@ const FRAGMENT_SHADER = `
     // displacement so the entire screen continuously deforms instead of
     // concentrating movement in one side of the image.
     vec2 field = uv * vec2(3.15, 2.65);
-    vec2 drift = vec2(u_time * 0.180, -u_time * 0.132);
+    vec2 drift = vec2(u_time * 0.090, -u_time * 0.066);
 
     float warpX = valueNoise(
       field + drift + vec2(phase * 0.73, phase * 0.37)
@@ -69,10 +69,10 @@ const FRAGMENT_SHADER = `
 
     vec2 detailField = (uv + broadWarp) * vec2(7.2, 5.8);
     float detailX = valueNoise(
-      detailField + vec2(-u_time * 0.096 + phase, u_time * 0.074)
+      detailField + vec2(-u_time * 0.048 + phase, u_time * 0.037)
     );
     float detailY = valueNoise(
-      detailField * 1.21 + vec2(u_time * 0.082, -u_time * 0.104 + phase)
+      detailField * 1.21 + vec2(u_time * 0.041, -u_time * 0.052 + phase)
     );
 
     return broadWarp + (vec2(detailX, detailY) - 0.5) * 0.020;
