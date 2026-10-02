@@ -1,1 +1,2 @@
 - [Angular toolchain constraints](angular-toolchain.md) — check CLI Node requirements and blocked Piscina transitives before upgrading.
+- [AstroVerse visual fidelity](astroverse-visual-fidelity.md) — preserve the approved screen structure and tint the supplied nebula with CSS filters.
