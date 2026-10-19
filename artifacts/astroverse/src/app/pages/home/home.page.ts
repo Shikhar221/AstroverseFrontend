@@ -24,9 +24,6 @@ import { ThemeService } from '../../core/services/theme.service';
         <div class="aura"></div>
         <div class="zodiac-holder"><app-zodiac-wheel></app-zodiac-wheel></div>
         <div class="yantra-holder" [class.budha-integrated-holder]="theme.activeTheme().yantra === 'budha'"><app-yantra></app-yantra></div>
-        @if (theme.activeTheme().yantra === 'budha') {
-          <div class="budha-beej-fixed" aria-hidden="true">बं</div>
-        }
       </section>
 
       <nav class="bottom-nav" aria-label="Primary navigation">
@@ -49,6 +46,14 @@ import { ThemeService } from '../../core/services/theme.service';
 
       <app-side-menu [open]="menuOpen()" (closed)="closeMenu()"></app-side-menu>
     </main>`,
+  styles: [`
+    .instrument .yantra-holder.budha-integrated-holder {
+      inset: 14%;
+    }
+    .cosmos {
+      background: radial-gradient(ellipse at 50% 47%, rgba(12, 42, 29, .14) 0, rgba(4, 18, 12, .24) 60%, #06130d 100%);
+    }
+  `],
 })
 export class HomePage {
   readonly menuOpen = signal(false);
