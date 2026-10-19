@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-yantra',
   standalone: true,
-  imports: [NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault],
+  imports: [NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault],
   template: `
     <svg class="yantra-svg" viewBox="0 0 300 300" fill="none" aria-hidden="true">
       <defs>
