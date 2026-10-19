@@ -1,13 +1,34 @@
 import { Component } from '@angular/core';
-import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-yantra',
   standalone: true,
-  imports: [NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault],
+  imports: [NgFor, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault],
   template: `
     <svg class="yantra-svg" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="budha-line" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#D7FFE8"></stop>
+          <stop offset="48%" stop-color="#9CFFD0"></stop>
+          <stop offset="100%" stop-color="#45D991"></stop>
+        </linearGradient>
+        <radialGradient id="budha-bindu">
+          <stop offset="0%" stop-color="#F0FFF7"></stop>
+          <stop offset="38%" stop-color="#B7FFD9"></stop>
+          <stop offset="100%" stop-color="#55E99B" stop-opacity="0"></stop>
+        </radialGradient>
+        <filter id="budha-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1.8" result="soft"></feGaussianBlur>
+          <feMerge><feMergeNode in="soft"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+        </filter>
+        <filter id="budha-core-glow" x="-150%" y="-150%" width="400%" height="400%">
+          <feGaussianBlur stdDeviation="4" result="halo"></feGaussianBlur>
+          <feMerge><feMergeNode in="halo"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+        </filter>
+      </defs>
+
       <g [ngSwitch]="theme.activeTheme().yantra" stroke="currentColor" stroke-width=".95" stroke-linejoin="round">
         <g *ngSwitchCase="'lotus'">
           <circle cx="150" cy="150" r="113" opacity=".4"></circle><circle cx="150" cy="150" r="92" opacity=".48"></circle>
@@ -19,34 +40,42 @@ import { ThemeService } from '../../core/services/theme.service';
           <path d="M150 93 201 180 150 208 99 180Z" opacity=".72"></path><path d="M150 208 201 120 150 92 99 120Z" opacity=".6"></path>
         </g>
 
-        <g *ngSwitchCase="'budha'">
-          <!-- Budha/Mercury mandala: broad, clean geometry with a strong outer boundary,
-               restrained triangle lattice, and Budha beej syllable at the bindu. -->
-          <defs>
-            <linearGradient id="budha-line" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#B8F3A4"></stop>
-              <stop offset="55%" stop-color="#8FE6A7"></stop>
-              <stop offset="100%" stop-color="#B9D978"></stop>
-            </linearGradient>
-          </defs>
-          <g class="budha-integrated" stroke="url(#budha-line)" stroke-linejoin="round" stroke-linecap="round">
-            <!-- Simplified Budha geometry: fewer, deliberate forms with generous breathing room. -->
-            <circle cx="150" cy="150" r="126" stroke-width="1.5" opacity=".72"></circle>
-            <circle cx="150" cy="150" r="112" stroke-width=".9" opacity=".48"></circle>
-            <circle cx="150" cy="150" r="92" stroke-width=".7" opacity=".34"></circle>
+        <g *ngSwitchCase="'budha'" class="budha-yantra" stroke="url(#budha-line)" stroke-linecap="round" stroke-linejoin="round" filter="url(#budha-glow)">
+          <!-- Fine outer rings and dotted orbital guide: bright but not heavy. -->
+          <circle cx="150" cy="150" r="127" stroke-width="1.05" opacity=".68"></circle>
+          <circle cx="150" cy="150" r="119" stroke-width=".55" opacity=".43" stroke-dasharray="1 3"></circle>
+          <circle cx="150" cy="150" r="105" stroke-width=".8" opacity=".56"></circle>
+          <circle cx="150" cy="150" r="94" stroke-width=".65" opacity=".42"></circle>
+          <circle cx="150" cy="150" r="80" stroke-width=".58" opacity=".34"></circle>
+          <circle cx="150" cy="150" r="64" stroke-width=".55" opacity=".36"></circle>
+          <circle cx="150" cy="150" r="48" stroke-width=".52" opacity=".32"></circle>
+          <circle cx="150" cy="150" r="34" stroke-width=".48" opacity=".3"></circle>
+          <circle cx="150" cy="150" r="20" stroke-width=".45" opacity=".28"></circle>
 
-            <!-- Two primary interlocking triangles: the visual anchor of the yantra. -->
-            <path d="M150 35 L249 207 L51 207 Z" stroke-width=".72" opacity=".62"></path>
-            <path d="M150 265 L51 93 L249 93 Z" stroke-width=".72" opacity=".62"></path>
+          <!-- Twelve-fold lotus arcs woven between the ring and triangle lattice. -->
+          <g *ngFor="let petal of petals(12)" [attr.transform]="'rotate(' + (petal * 30) + ' 150 150)'">
+            <path d="M150 30 C132 49 130 67 150 84 C170 67 168 49 150 30Z" stroke-width=".62" opacity=".56"></path>
+            <path d="M150 58 C136 76 138 94 150 108 C162 94 164 76 150 58Z" stroke-width=".55" opacity=".4"></path>
+            <path d="M150 86 C128 103 130 125 150 139 C170 125 172 103 150 86Z" stroke-width=".62" opacity=".45"></path>
+          </g>
 
-            <!-- One restrained diamond layer, rather than a dense web of rotated triangles. -->
-            <path d="M150 70 L230 150 L150 230 L70 150 Z" stroke-width=".62" opacity=".40"></path>
+          <!-- Multiple mathematically generated, interlocking triangles create the dense woven core. -->
+          <g *ngFor="let radius of budhaLayers">
+            <polygon [attr.points]="trianglePoints(radius, -90)" stroke-width=".66" [attr.opacity]="triangleOpacity(radius)"></polygon>
+            <polygon [attr.points]="trianglePoints(radius, 90)" stroke-width=".66" [attr.opacity]="triangleOpacity(radius)"></polygon>
+            <polygon [attr.points]="trianglePoints(radius * .91, -60)" stroke-width=".48" [attr.opacity]="triangleOpacity(radius) * .72"></polygon>
+            <polygon [attr.points]="trianglePoints(radius * .91, 60)" stroke-width=".48" [attr.opacity]="triangleOpacity(radius) * .72"></polygon>
+          </g>
 
-            <!-- Quiet inner circles around the bindu. -->
-            <circle cx="150" cy="150" r="61" stroke-width=".58" opacity=".30"></circle>
-            <circle cx="150" cy="150" r="39" stroke-width=".52" opacity=".24"></circle>
+          <!-- Radial connectors and luminous intersection points add the holographic depth. -->
+          <g *ngFor="let ray of petals(12)" [attr.transform]="'rotate(' + (ray * 30) + ' 150 150)'">
+            <line x1="150" y1="23" x2="150" y2="42" stroke-width=".8" opacity=".75"></line>
+            <line x1="150" y1="58" x2="150" y2="128" stroke-width=".48" opacity=".27"></line>
+            <circle cx="150" cy="44" r="1.15" fill="#D7FFE8" stroke="none" opacity=".92"></circle>
+            <circle cx="150" cy="83" r=".85" fill="#B7FFD9" stroke="none" opacity=".72"></circle>
           </g>
         </g>
+
         <g *ngSwitchCase="'orbit'">
           <circle cx="150" cy="150" r="105" opacity=".55"></circle><circle cx="150" cy="150" r="79" opacity=".48"></circle><circle cx="150" cy="150" r="48" opacity=".74"></circle>
           <ellipse cx="150" cy="150" rx="31" ry="112" transform="rotate(30 150 150)" opacity=".8"></ellipse>
@@ -78,9 +107,32 @@ import { ThemeService } from '../../core/services/theme.service';
         </g>
         <g *ngSwitchDefault><circle cx="150" cy="150" r="108"></circle></g>
       </g>
+
+      <g *ngIf="theme.activeTheme().yantra === 'budha'" pointer-events="none">
+        <circle cx="150" cy="150" r="12" fill="url(#budha-bindu)" filter="url(#budha-core-glow)"></circle>
+        <circle cx="150" cy="150" r="2.3" fill="#E8FFF2" filter="url(#budha-core-glow)"></circle>
+      </g>
     </svg>`,
 })
 export class YantraComponent {
+  readonly budhaLayers = [110, 100, 90, 80, 70, 60, 51, 43, 36, 29, 23, 18, 13, 9];
+
   constructor(readonly theme: ThemeService) {}
-  petals(count: number): number[] { return Array.from({ length: count }, (_, i) => i); }
+
+  petals(count: number): number[] {
+    return Array.from({ length: count }, (_, i) => i);
+  }
+
+  trianglePoints(radius: number, rotation: number): string {
+    return Array.from({ length: 3 }, (_, index) => {
+      const angle = (rotation + index * 120 - 90) * Math.PI / 180;
+      const x = 150 + Math.cos(angle) * radius;
+      const y = 150 + Math.sin(angle) * radius;
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    }).join(' ');
+  }
+
+  triangleOpacity(radius: number): number {
+    return radius > 75 ? 0.34 : radius > 40 ? 0.48 : 0.62;
+  }
 }
