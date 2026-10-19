@@ -43,11 +43,11 @@ export class ThemeService {
     root.style.setProperty('--nebula-three', theme.nebulaThree);
     root.style.setProperty('--nebula-hue', `${theme.nebulaHue}deg`);
     root.style.setProperty('--nebula-saturation', `${theme.nebulaSaturation}`);
-    root.style.setProperty('--nebula-contrast', theme.id === 'mercury' ? '1.38' : '1.18');
-    root.style.setProperty('--nebula-brightness', theme.id === 'mercury' ? '.96' : '.94');
-    root.style.setProperty('--yantra', theme.id === 'mercury' ? '#9DE3A8' : theme.primary);
-    root.style.setProperty('--cosmos-center', 'rgba(21,21,25,.22)');
-    root.style.setProperty('--cosmos-edge', 'rgba(7,8,12,.64)');
-    root.style.setProperty('--vignette-opacity', '.34');
+    root.style.setProperty('--nebula-contrast', theme.id === 'mercury' ? '1.10' : '1.18');
+    root.style.setProperty('--nebula-brightness', theme.id === 'mercury' ? '1.08' : '.94');
+    root.style.setProperty('--yantra', theme.id === 'mercury' ? '#9CFFD0' : theme.primary);
+    root.style.setProperty('--cosmos-center', 'rgba(12,42,29,.14)');
+    root.style.setProperty('--cosmos-edge', 'rgba(4,18,12,.24)');
+    root.style.setProperty('--vignette-opacity', theme.id === 'mercury' ? '.12' : '.34');
   }
 }
