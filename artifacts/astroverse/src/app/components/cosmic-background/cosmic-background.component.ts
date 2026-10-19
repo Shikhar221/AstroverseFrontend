@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { NebulaWebGLRenderer } from './nebula-webgl-renderer';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-cosmic-background',
   standalone: true,
   template: `
-    <div #atmosphere class="atmosphere" aria-hidden="true">
+    <div #atmosphere class="atmosphere" [class.mercury-atmosphere]="theme.activeTheme().id === 'mercury'" aria-hidden="true">
       <svg class="nebula-filter-definitions" width="0" height="0" focusable="false">
         <defs>
           <filter id="nebula-smoke-flow" x="-12%" y="-12%" width="124%" height="124%">
@@ -29,6 +30,20 @@ import { NebulaWebGLRenderer } from './nebula-webgl-renderer';
       <i class="dust dust-c"></i>
       <i class="dust dust-d"></i>
     </div>`,
+  styles: [`
+    .atmosphere.mercury-atmosphere .nebula-canvas,
+    .atmosphere.mercury-atmosphere .nebula-fallback-canvas {
+      opacity: .94;
+      filter: grayscale(1) sepia(1) saturate(2.05) hue-rotate(88deg) contrast(1.10) brightness(1.08);
+    }
+    .atmosphere.mercury-atmosphere .starfield,
+    .atmosphere.mercury-atmosphere .dust {
+      display: none !important;
+    }
+    .atmosphere.mercury-atmosphere::after {
+      background: radial-gradient(ellipse at center, transparent 24%, rgba(0, 18, 10, .035) 78%, rgba(0, 12, 7, .12) 100%);
+    }
+  `],
 })
 export class CosmicBackgroundComponent implements AfterViewInit, OnDestroy {
   @ViewChild('atmosphere', { static: true }) private atmosphere!: ElementRef<HTMLElement>;
@@ -38,7 +53,7 @@ export class CosmicBackgroundComponent implements AfterViewInit, OnDestroy {
 
   private renderer?: NebulaWebGLRenderer;
 
-  constructor(private readonly zone: NgZone) {}
+  constructor(private readonly zone: NgZone, readonly theme: ThemeService) {}
 
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => {
